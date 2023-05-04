@@ -11,25 +11,32 @@ export default function FilterProvider({ children }) {
   const [comparison, setComparison] = useState('maior que');
   const [compValue, setCompValue] = useState(0);
   const [planetName, setPlanetName] = useState('');
-  const [filteredPlanets, setFilteredPlanets] = useState('');
+  const [filters, setFilters] = useState({});
 
-  const planetList = results?.filter((el) => el.name
-    .toLowerCase().includes(planetName.toLowerCase()));
+  const planetList = results?.filter((e) => e.name
+    .toLowerCase().includes(planetName.toLowerCase())).filter((el) => {
+    switch (filters.filComparison) {
+    case 'maior que':
+      return parseFloat(el[filters.filColumn]) > filters.filCompValue;
+    case 'menor que':
+      return el[filters.filColumn] <= filters.filCompValue;
+    case 'igual a':
+      return el[filters.filColumn] === filters.filCompValue;
+    default:
+      return el;
+    }
+  });
 
   const columnList = useMemo(() => ['population',
     'orbital_period', 'diameter', 'rotation_period', 'surface_water'], []);
 
-  const handleFilter = useCallback((filColumn, filComparison, filCompValue) => {
-    let newPlanets = [];
-    if (filComparison === 'maior que') {
-      newPlanets = planetList?.filter((e) => parseFloat(e[filColumn]) > filCompValue);
-    } else if (filComparison === 'menor que') {
-      newPlanets = planetList?.filter((e) => e[filColumn] <= filCompValue);
-    } else if (filComparison === 'igual a') {
-      newPlanets = planetList?.filter((e) => e[filColumn] === filCompValue);
-    }
-    return setFilteredPlanets(newPlanets);
-  }, [planetList]);
+  const handleFilter = useCallback((
+    filColumn,
+    filComparison,
+    filCompValue,
+  ) => setFilters({ filColumn,
+    filComparison,
+    filCompValue }), []);
 
   const values = useMemo(
     () => ({
@@ -46,7 +53,7 @@ export default function FilterProvider({ children }) {
       handleFilter,
       columnSelect,
       setColumnSelect,
-      filteredPlanets,
+      filters,
     }),
     [
       planetName,
@@ -62,7 +69,7 @@ export default function FilterProvider({ children }) {
       handleFilter,
       columnSelect,
       setColumnSelect,
-      filteredPlanets,
+      filters,
     ],
   );
 
