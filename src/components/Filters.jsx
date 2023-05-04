@@ -14,7 +14,7 @@ function Filters() {
       compValue,
       setCompValue,
       columnList,
-      // handleFilter,
+      handleFilter,
     } = useContext(FilterContext);
 
   const filteredColumnList = columnList.filter((e) => !columnSelect.includes(e));
@@ -27,7 +27,6 @@ function Filters() {
         onChange={ ({ target }) => setColumn(target.value) }
         data-testid="column-filter"
       >
-        <option>Todos</option>
         { filteredColumnList.map((e) => <option value={ e } key={ e }>{e}</option>) }
       </select>
       <label htmlFor="comparison-filter">Operador:</label>
@@ -37,9 +36,9 @@ function Filters() {
         onChange={ ({ target }) => setComparison(target.value) }
         data-testid="comparison-filter"
       >
-        <option value="maior que">Maior que:</option>
-        <option value="menor que">Menor que:</option>
-        <option value="igual a">Igual a:</option>
+        <option value="maior que">maior que</option>
+        <option value="menor que">menor que</option>
+        <option value="igual a">igual a</option>
       </select>
       <input
         type="number"
@@ -49,7 +48,10 @@ function Filters() {
       />
       <button
         data-testid="button-filter"
-        onClick={ () => setColumnSelect((ps) => ([...ps, column])) }
+        onClick={ () => {
+          handleFilter(column, comparison, compValue);
+          setColumnSelect((ps) => ([...ps, column]));
+        } }
       >
         FILTRAR
 

@@ -6,11 +6,12 @@ import PlanetsContext from './PlanetsContext';
 export default function FilterProvider({ children }) {
   const { planetsData: { results } } = useContext(PlanetsContext);
 
-  const [column, setColumn] = useState('Todos');
-  const [columnSelect, setColumnSelect] = useState('Todos');
+  const [column, setColumn] = useState('population');
+  const [columnSelect, setColumnSelect] = useState('');
   const [comparison, setComparison] = useState('maior que');
   const [compValue, setCompValue] = useState(0);
   const [planetName, setPlanetName] = useState('');
+  const [filteredPlanets, setFilteredPlanets] = useState('');
 
   const planetList = results?.filter((el) => el.name
     .toLowerCase().includes(planetName.toLowerCase()));
@@ -19,17 +20,20 @@ export default function FilterProvider({ children }) {
     'orbital_period', 'diameter', 'rotation_period', 'surface_water'], []);
 
   const handleFilter = useCallback((filColumn, filComparison, filCompValue) => {
-    let filteredPlanets = [];
+    let newPlanets = [];
     if (filComparison === 'maior que') {
-      filteredPlanets = planetList?.filter((e) => e[filColumn] > filCompValue);
+      newPlanets = planetList?.filter((e) => parseFloat(e[filColumn]) > filCompValue);
     } else if (filComparison === 'menor que') {
-      filteredPlanets = planetList?.filter((e) => e[filColumn] < filCompValue);
+      newPlanets = planetList?.filter((e) => e[filColumn] <= filCompValue);
     } else if (filComparison === 'igual a') {
-      filteredPlanets = planetList?.filter((e) => e[filColumn] === filCompValue);
+      newPlanets = planetList?.filter((e) => e[filColumn] === filCompValue);
     }
-    return filteredPlanets;
+    return setFilteredPlanets(newPlanets);
   }, [planetList]);
-
+  console.log(column);
+  console.log(compValue);
+  console.log(filteredPlanets);
+  console.log(planetList);
   const values = useMemo(
     () => ({
       planetName,
@@ -45,6 +49,7 @@ export default function FilterProvider({ children }) {
       handleFilter,
       columnSelect,
       setColumnSelect,
+      filteredPlanets,
     }),
     [
       planetName,
@@ -60,6 +65,7 @@ export default function FilterProvider({ children }) {
       handleFilter,
       columnSelect,
       setColumnSelect,
+      filteredPlanets,
     ],
   );
 
