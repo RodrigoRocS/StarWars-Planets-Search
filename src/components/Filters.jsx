@@ -7,19 +7,28 @@ function Filters() {
     {
       column,
       setColumn,
-      columnSelect,
-      setColumnSelect,
       comparison,
       setComparison,
       compValue,
       setCompValue,
       columnList,
       handleFilter,
+      planetName,
+      setPlanetName,
+      setColumnList,
     } = useContext(FilterContext);
 
-  const filteredColumnList = columnList.filter((e) => !columnSelect.includes(e));
   return (
     <div className="filters-container">
+      <section>
+        <input
+          type="text"
+          value={ planetName }
+          data-testid="name-filter"
+          onChange={ ({ target }) => setPlanetName(target.value) }
+          placeholder="Buscar"
+        />
+      </section>
       <label htmlFor="column-filter">Coluna:</label>
       <select
         id="column-filter"
@@ -27,7 +36,7 @@ function Filters() {
         onChange={ ({ target }) => setColumn(target.value) }
         data-testid="column-filter"
       >
-        { filteredColumnList.map((e) => <option value={ e } key={ e }>{e}</option>) }
+        { columnList.map((e) => <option value={ e } key={ e }>{e}</option>) }
       </select>
       <label htmlFor="comparison-filter">Operador:</label>
       <select
@@ -50,7 +59,9 @@ function Filters() {
         data-testid="button-filter"
         onClick={ () => {
           handleFilter(column, comparison, compValue);
-          setColumnSelect((ps) => ([...ps, column]));
+          const filteredColumnList = columnList.filter((e) => !column.includes(e));
+          setColumnList(filteredColumnList);
+          setColumn(filteredColumnList[0]);
         } }
       >
         FILTRAR

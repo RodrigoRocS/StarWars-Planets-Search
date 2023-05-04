@@ -6,20 +6,9 @@ import Filters from './Filters';
 
 function Table() {
   const { isFetchPlanetsLoading } = useContext(PlanetsContext);
-  const { planetName,
-    setPlanetName,
-    planetList } = useContext(FilterContext);
+  const { planetList } = useContext(FilterContext);
   return (
     <div>
-      <section>
-        <input
-          type="text"
-          value={ planetName }
-          data-testid="name-filter"
-          onChange={ ({ target }) => setPlanetName(target.value) }
-          placeholder="Buscar"
-        />
-      </section>
       <Filters />
       {
         isFetchPlanetsLoading
