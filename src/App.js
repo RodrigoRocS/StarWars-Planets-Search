@@ -5,7 +5,7 @@ import Table from './components/Table';
 function App() {
   return (
     <>
-      <span>Projeto Star Wars - Trybe</span>
+      <span className="page-title">Projeto Star Wars - Trybe</span>
       <Table />
     </>
   );

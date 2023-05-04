@@ -1,12 +1,26 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../contexts/PlanetsContext';
+import FilterContext from '../contexts/FilterContext';
+import './Table.css';
+import Filters from './Filters';
 
 function Table() {
   const { planetsData: { results }, isFetchPlanetsLoading } = useContext(PlanetsContext);
-  console.log(results);
-
+  const { planetName, setPlanetName } = useContext(FilterContext);
+  const planetList = results?.filter((el) => el.name
+    .toLowerCase().includes(planetName.toLowerCase()));
   return (
     <div>
+      <section>
+        <input
+          type="text"
+          value={ planetName }
+          data-testid="name-filter"
+          onChange={ ({ target }) => setPlanetName(target.value) }
+          placeholder="Buscar"
+        />
+      </section>
+      <Filters />
       <table>
         <thead>
           <tr>
@@ -26,7 +40,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          { isFetchPlanetsLoading ? <p>Carregando...</p> : results?.map((e) => (
+          { isFetchPlanetsLoading ? <p>Carregando...</p> : planetList?.map((e) => (
             <tr key={ e.name }>
               <td>{ e.name }</td>
               <td>{ e.rotation_period }</td>

@@ -1,0 +1,32 @@
+.filters-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #f7f7f7;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.filters-container label {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.filters-container select,
+.filters-container input[type="number"] {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 5px;
+}
+
+.filters-container button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #009688;
+  color: #fff;
+  cursor: pointer;
+}
