@@ -30,10 +30,7 @@ export default function FilterProvider({ children }) {
     }
     return setFilteredPlanets(newPlanets);
   }, [planetList]);
-  console.log(column);
-  console.log(compValue);
-  console.log(filteredPlanets);
-  console.log(planetList);
+
   const values = useMemo(
     () => ({
       planetName,
