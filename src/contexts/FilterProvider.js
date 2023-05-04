@@ -18,8 +18,6 @@ export default function FilterProvider({ children }) {
     .toLowerCase().includes(planetName.toLowerCase())).filter((el) => {
     let filtered = true;
     filters.forEach((filter) => {
-      console.log(filter);
-      console.log(el);
       switch (filter.filComparison) {
       case 'maior que':
         filtered = filtered && Number(el[filter.filColumn]) > +filter.filCompValue;
