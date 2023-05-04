@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import FilterContext from '../contexts/FilterContext';
-import './Filters.css';
+// import './Filters.css';
 
 function Filters() {
   const
@@ -11,6 +11,8 @@ function Filters() {
       setComparison,
       compValue,
       setCompValue,
+      columnList,
+      handleFilter,
     } = useContext(FilterContext);
   return (
     <div className="filters-container">
@@ -21,11 +23,7 @@ function Filters() {
         onChange={ ({ target }) => setColumn(target.value) }
         data-testid="column-filter"
       >
-        <option value="population">Population</option>
-        <option value="orbital_period">Orbital Period</option>
-        <option value="diameter">Diameter</option>
-        <option value="rotation_period">Rotation Period</option>
-        <option value="surface_water">Surface Water</option>
+        { columnList.map((e) => <option value={ e } key={ e }>{e}</option>) }
       </select>
       <label htmlFor="comparison-filter">Operador:</label>
       <select
@@ -44,7 +42,13 @@ function Filters() {
         value={ compValue }
         onChange={ ({ target }) => setCompValue(target.value) }
       />
-      <button data-testid="button-filter">FILTRAR</button>
+      <button
+        data-testid="button-filter"
+        onClick={ () => console.log(handleFilter(column, comparison, compValue)) }
+      >
+        FILTRAR
+
+      </button>
     </div>
   );
 }

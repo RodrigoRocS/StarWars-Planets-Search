@@ -7,9 +7,9 @@ import FilterProvider from './contexts/FilterProvider';
 ReactDOM
   .createRoot(document.getElementById('root'))
   .render(
-    <FilterProvider>
-      <PlanetsProvider>
+    <PlanetsProvider>
+      <FilterProvider>
         <App />
-      </PlanetsProvider>
-    </FilterProvider>,
+      </FilterProvider>
+    </PlanetsProvider>,
   );
