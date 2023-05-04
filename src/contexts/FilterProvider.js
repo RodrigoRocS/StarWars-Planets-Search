@@ -26,7 +26,7 @@ export default function FilterProvider({ children }) {
     } else if (filComparison === 'igual a') {
       filteredPlanets = planetList?.filter((e) => e[filColumn] === filCompValue);
     }
-    return filteredPlanets;
+    setPlanets(filteredPlanets);
   }, [planetList]);
 
   const values = useMemo(
