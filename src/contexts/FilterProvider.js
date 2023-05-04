@@ -6,7 +6,8 @@ import PlanetsContext from './PlanetsContext';
 export default function FilterProvider({ children }) {
   const { planetsData: { results } } = useContext(PlanetsContext);
 
-  const [column, setColumn] = useState('population');
+  const [column, setColumn] = useState('Todos');
+  const [columnSelect, setColumnSelect] = useState('Todos');
   const [comparison, setComparison] = useState('maior que');
   const [compValue, setCompValue] = useState(0);
   const [planetName, setPlanetName] = useState('');
@@ -26,7 +27,7 @@ export default function FilterProvider({ children }) {
     } else if (filComparison === 'igual a') {
       filteredPlanets = planetList?.filter((e) => e[filColumn] === filCompValue);
     }
-    setPlanets(filteredPlanets);
+    return filteredPlanets;
   }, [planetList]);
 
   const values = useMemo(
@@ -42,6 +43,8 @@ export default function FilterProvider({ children }) {
       planetList,
       columnList,
       handleFilter,
+      columnSelect,
+      setColumnSelect,
     }),
     [
       planetName,
@@ -55,6 +58,8 @@ export default function FilterProvider({ children }) {
       planetList,
       columnList,
       handleFilter,
+      columnSelect,
+      setColumnSelect,
     ],
   );
 
