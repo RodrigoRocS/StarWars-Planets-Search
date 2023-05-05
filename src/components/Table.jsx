@@ -6,10 +6,17 @@ import Filters from './Filters';
 
 function Table() {
   const { isFetchPlanetsLoading } = useContext(PlanetsContext);
-  const { planetList } = useContext(FilterContext);
+  const { planetList, filters, handleCleanFilters } = useContext(FilterContext);
   return (
     <div>
       <Filters />
+      { filters?.map((e, i) => (
+        <div key={ i } data-testid="filter">
+          <span>{`${e.filColumn} ${e.filComparison} ${e.filCompValue}`}</span>
+          <button id={ e.filColumn } onClick={ handleCleanFilters }>Remover</button>
+        </div>
+      )) }
+
       {
         isFetchPlanetsLoading
           ? <p>Carregando...</p>

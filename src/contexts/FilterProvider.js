@@ -20,13 +20,13 @@ export default function FilterProvider({ children }) {
     filters.forEach((filter) => {
       switch (filter.filComparison) {
       case 'maior que':
-        filtered = filtered && Number(el[filter.filColumn]) > +filter.filCompValue;
+        filtered = filtered && +el[filter.filColumn] > +filter.filCompValue;
         break;
       case 'menor que':
-        filtered = filtered && Number(el[filter.filColumn]) < +filter.filCompValue;
+        filtered = filtered && +el[filter.filColumn] < +filter.filCompValue;
         break;
       case 'igual a':
-        filtered = filtered && Number(el[filter.filColumn]) === +filter.filCompValue;
+        filtered = filtered && +el[filter.filColumn] === +filter.filCompValue;
         break;
       default:
         break;
@@ -46,6 +46,24 @@ export default function FilterProvider({ children }) {
     setFilters([...filters, newFilter]);
   }, [filters]);
 
+  const handleCleanFilters = useCallback(({ target }) => {
+    setColumnList([...columnList, target.id]);
+    setFilters(filters.filter((e) => e.filColumn !== target.id));
+  }, [columnList, filters]);
+
+  const handleCleanAllFilters = useCallback(() => {
+    const filteredColumns = filters.map((e) => e.filColumn);
+    setColumnList([...columnList, ...filteredColumns]);
+    setFilters([]);
+  }, [columnList, filters]);
+
+  const handleAddFilter = useCallback(() => {
+    handleFilter(column, comparison, compValue);
+    const filteredColumnList = columnList.filter((e) => !column.includes(e));
+    setColumnList(filteredColumnList);
+    setColumn(filteredColumnList[0]);
+  }, [column, columnList, comparison, handleFilter, compValue]);
+
   const values = useMemo(
     () => ({
       planetName,
@@ -61,6 +79,9 @@ export default function FilterProvider({ children }) {
       handleFilter,
       filters,
       setColumnList,
+      handleCleanFilters,
+      handleCleanAllFilters,
+      handleAddFilter,
     }),
     [
       planetName,
@@ -76,6 +97,9 @@ export default function FilterProvider({ children }) {
       handleFilter,
       filters,
       setColumnList,
+      handleCleanFilters,
+      handleCleanAllFilters,
+      handleAddFilter,
     ],
   );
 

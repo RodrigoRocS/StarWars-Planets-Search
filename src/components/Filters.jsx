@@ -12,10 +12,10 @@ function Filters() {
       compValue,
       setCompValue,
       columnList,
-      handleFilter,
       planetName,
       setPlanetName,
-      setColumnList,
+      handleCleanAllFilters,
+      handleAddFilter,
     } = useContext(FilterContext);
 
   return (
@@ -57,14 +57,16 @@ function Filters() {
       />
       <button
         data-testid="button-filter"
-        onClick={ () => {
-          handleFilter(column, comparison, compValue);
-          const filteredColumnList = columnList.filter((e) => !column.includes(e));
-          setColumnList(filteredColumnList);
-          setColumn(filteredColumnList[0]);
-        } }
+        onClick={ handleAddFilter }
       >
         FILTRAR
+
+      </button>
+      <button
+        data-testid="button-remove-filters"
+        onClick={ handleCleanAllFilters }
+      >
+        REMOVER FILTROS
 
       </button>
     </div>
