@@ -16,7 +16,18 @@ function Filters() {
       setPlanetName,
       handleCleanAllFilters,
       handleAddFilter,
+      sortColumn,
+      setSortColumn,
+      sortOrder,
+      setSortOrder,
+      setSortListBy,
     } = useContext(FilterContext);
+
+  const handleOrderClick = () => {
+    const takeColumn = sortColumn;
+    const takeSort = sortOrder;
+    setSortListBy({ order: { column: takeColumn, sort: takeSort } });
+  };
 
   return (
     <div className="filters-container">
@@ -69,6 +80,51 @@ function Filters() {
         REMOVER FILTROS
 
       </button>
+      <div>
+        <label htmlFor="column-sort">Ordenar:</label>
+        <select
+          id="column-sort"
+          data-testid="column-sort"
+          onChange={ ({ target }) => setSortColumn(target.value) }
+          value={ sortColumn }
+        >
+          <option value="population">population</option>
+          <option value="orbital_period">orbital_period</option>
+          <option value="diameter">diameter</option>
+          <option value="rotation_period">rotation_period</option>
+          <option value="surface_water">surface_water</option>
+        </select>
+
+        <label>
+          <input
+            type="radio"
+            name="order"
+            value="ASC"
+            checked={ sortOrder === 'ASC' }
+            onChange={ () => setSortOrder('ASC') }
+            data-testid="column-sort-input-asc"
+          />
+          Ascendente
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="order"
+            value="DSC"
+            checked={ sortOrder === 'DESC' }
+            onChange={ () => setSortOrder('DESC') }
+            data-testid="column-sort-input-desc"
+          />
+          Descendente
+        </label>
+        <button
+          data-testid="column-sort-button"
+          onClick={ handleOrderClick }
+        >
+          ORDENAR
+
+        </button>
+      </div>
     </div>
   );
 }

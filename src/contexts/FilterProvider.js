@@ -13,6 +13,11 @@ export default function FilterProvider({ children }) {
   const [filters, setFilters] = useState([]);
   const [columnList, setColumnList] = useState(['population',
     'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
+  const [sortColumn, setSortColumn] = useState('population');
+  const [sortOrder, setSortOrder] = useState('');
+  const [sortListBy,
+    setSortListBy] = useState({ order: { column: sortColumn, sort: sortOrder } });
+  console.log(sortListBy);
 
   const planetList = results?.filter((e) => e.name
     .toLowerCase().includes(planetName.toLowerCase())).filter((el) => {
@@ -34,6 +39,18 @@ export default function FilterProvider({ children }) {
     });
     return filtered;
   });
+
+  const handleSortList = useCallback((list) => {
+    if (!sortListBy.order.sort) {
+      return list;
+    }
+    const unknowns = list.filter((e) => e[sortListBy.order.column] === 'unknown');
+    const filteredList = list.filter((e) => e[sortListBy.order.column] !== 'unknown');
+    filteredList.sort((a, b) => (sortListBy.order.sort === 'ASC'
+      ? a[sortListBy.order.column] - b[sortListBy.order.column]
+      : b[sortListBy.order.column] - a[sortListBy.order.column]));
+    return [...filteredList, ...unknowns];
+  }, [sortListBy.order.sort, sortListBy.order.column]);
 
   const handleFilter = useCallback((
     filColumn,
@@ -82,6 +99,12 @@ export default function FilterProvider({ children }) {
       handleCleanFilters,
       handleCleanAllFilters,
       handleAddFilter,
+      sortColumn,
+      setSortColumn,
+      sortOrder,
+      setSortOrder,
+      handleSortList,
+      setSortListBy,
     }),
     [
       planetName,
@@ -100,6 +123,12 @@ export default function FilterProvider({ children }) {
       handleCleanFilters,
       handleCleanAllFilters,
       handleAddFilter,
+      sortColumn,
+      setSortColumn,
+      sortOrder,
+      setSortOrder,
+      handleSortList,
+      setSortListBy,
     ],
   );
 

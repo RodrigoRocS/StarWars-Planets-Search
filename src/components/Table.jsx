@@ -6,7 +6,11 @@ import Filters from './Filters';
 
 function Table() {
   const { isFetchPlanetsLoading } = useContext(PlanetsContext);
-  const { planetList, filters, handleCleanFilters } = useContext(FilterContext);
+  const { planetList,
+    filters, handleCleanFilters, handleSortList } = useContext(FilterContext);
+
+  const sortedPlanetList = handleSortList(planetList);
+
   return (
     <div>
       <Filters />
@@ -40,9 +44,9 @@ function Table() {
                 </tr>
               </thead>
               <tbody>
-                { planetList?.map((e) => (
+                { sortedPlanetList?.map((e) => (
                   <tr key={ e.name }>
-                    <td>{ e.name }</td>
+                    <td data-testid="planet-name">{ e.name }</td>
                     <td>{ e.rotation_period }</td>
                     <td>{ e.orbital_period }</td>
                     <td>{ e.diameter }</td>
