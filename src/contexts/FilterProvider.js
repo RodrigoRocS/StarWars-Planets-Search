@@ -1,10 +1,14 @@
 import PropTypes from 'prop-types';
-import { useMemo, useState, useContext, useCallback } from 'react';
+import { useMemo, useState, useCallback, useEffect } from 'react';
 import FilterContext from './FilterContext';
-import PlanetsContext from './PlanetsContext';
+import useFetch from '../hooks/useFetch';
 
 export default function FilterProvider({ children }) {
-  const { planetsData: { results } } = useContext(PlanetsContext);
+  const [fetchPlanets, planetsData, isFetchPlanetsLoading, errorMessage] = useFetch([]);
+  useEffect(() => {
+    fetchPlanets('https://swapi.dev/api/planets');
+  }, [fetchPlanets]);
+  const { results } = planetsData;
 
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
@@ -17,7 +21,6 @@ export default function FilterProvider({ children }) {
   const [sortOrder, setSortOrder] = useState('');
   const [sortListBy,
     setSortListBy] = useState({ order: { column: sortColumn, sort: sortOrder } });
-  console.log(sortListBy);
 
   const planetList = results?.filter((e) => e.name
     .toLowerCase().includes(planetName.toLowerCase())).filter((el) => {
@@ -105,6 +108,9 @@ export default function FilterProvider({ children }) {
       setSortOrder,
       handleSortList,
       setSortListBy,
+      planetsData,
+      isFetchPlanetsLoading,
+      errorMessage,
     }),
     [
       planetName,
@@ -129,6 +135,9 @@ export default function FilterProvider({ children }) {
       setSortOrder,
       handleSortList,
       setSortListBy,
+      planetsData,
+      isFetchPlanetsLoading,
+      errorMessage,
     ],
   );
 

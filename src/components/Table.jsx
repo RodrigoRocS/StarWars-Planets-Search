@@ -1,13 +1,12 @@
 import React, { useContext } from 'react';
-import PlanetsContext from '../contexts/PlanetsContext';
 import FilterContext from '../contexts/FilterContext';
 // import './Table.css';
 import Filters from './Filters';
 
 function Table() {
-  const { isFetchPlanetsLoading } = useContext(PlanetsContext);
   const { planetList,
-    filters, handleCleanFilters, handleSortList } = useContext(FilterContext);
+    filters, handleCleanFilters,
+    handleSortList, isFetchPlanetsLoading } = useContext(FilterContext);
 
   const sortedPlanetList = handleSortList(planetList);
 
